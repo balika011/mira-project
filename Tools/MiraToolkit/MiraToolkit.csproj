@@ -236,13 +236,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\x64\Debug\ps4.png" />
+    <None Include="ps4.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\x64\Debug\ps4slim.png" />
+    <None Include="ps4slim.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\x64\Debug\ps4pro.png" />
+    <None Include="ps4pro.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
