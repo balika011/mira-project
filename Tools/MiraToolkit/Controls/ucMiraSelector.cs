@@ -81,6 +81,23 @@ namespace MiraToolkit.Controls
         {
             this.lstDevices.BeginUpdate();
 
+            var index = -1;
+
+            for (var i = 0; i < this.lstDevices.Items.Count; i++)
+            {
+                if (this.lstDevices.Items[i].SubItems[1].Text == ip)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index != -1)
+            {
+                this.lstDevices.EndUpdate();
+                return;
+            }
+
             int imageIndex = 0;
 
             switch(type)
