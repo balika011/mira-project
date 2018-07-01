@@ -124,6 +124,12 @@
     <Compile Include="Controls\FileTransfer\ucFileTransfer.Designer.cs">
       <DependentUpon>ucFileTransfer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Generic\frmDeviceSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Generic\frmDeviceSelector.Designer.cs">
+      <DependentUpon>frmDeviceSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Generic\frmInputPrompt.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\FileTransfer\ucFileTransfer.resx">
       <DependentUpon>ucFileTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Generic\frmDeviceSelector.resx">
+      <DependentUpon>frmDeviceSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Generic\frmInputPrompt.resx">
       <DependentUpon>frmInputPrompt.cs</DependentUpon>
@@ -243,6 +252,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ps4pro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="question.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

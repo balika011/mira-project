@@ -7,17 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
 
 namespace MiraToolkit.Controls
 {
     public enum DeviceType
     {
+        LOADING,
         PS4,
         PS4SLIM,
         PS4PRO
     }
 
-    public partial class ucMiraSelector : WeifenLuo.WinFormsUI.Docking.DockContent
+    public partial class ucMiraSelector : UserControl
     {
         public delegate void ConnectCallback(string ip);
         private ConnectCallback m_cb;
@@ -28,6 +30,7 @@ namespace MiraToolkit.Controls
             imageList.ImageSize = new Size(32, 32);
             imageList.ColorDepth = ColorDepth.Depth32Bit;
 
+            imageList.Images.Add("loading", Properties.Resources.question);
             imageList.Images.Add("ps4", Properties.Resources.ps4);
             imageList.Images.Add("ps4slim", Properties.Resources.ps4slim);
             imageList.Images.Add("ps4pro", Properties.Resources.ps4pro);
@@ -49,7 +52,7 @@ namespace MiraToolkit.Controls
             this.lstDevices.Columns.AddRange(new ColumnHeader[2] { NameHeader, IPHeader });
         }
 
-        public ucMiraSelector(ConnectCallback cb)
+        public ucMiraSelector()
         {
             InitializeComponent();
 
@@ -58,9 +61,11 @@ namespace MiraToolkit.Controls
 
             this.lstDevices.Font = new Font("Segoe UI", 10f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
 
-            this.lstDevices.ItemActivate += new
-                   System.EventHandler(this.lstDevices_ItemActivate);
+            this.lstDevices.ItemActivate += this.lstDevices_ItemActivate;
+        }
 
+        public void setConnectCallback(ConnectCallback cb)
+        {
             this.m_cb = cb;
         }
 
@@ -68,10 +73,11 @@ namespace MiraToolkit.Controls
         {
             System.Windows.Forms.ListView lw = (System.Windows.Forms.ListView)sender;
 
-            this.m_cb(lw.SelectedItems[0].SubItems[1].Text);
+            if (this.m_cb != null)
+                this.m_cb(lw.SelectedItems[0].SubItems[1].Text);
         }
 
-        public void AddDevice(DeviceType type, string name, string ip)
+        public void AddDevice(string ip, DeviceType type, string name)
         {
             this.lstDevices.BeginUpdate();
 
@@ -79,14 +85,17 @@ namespace MiraToolkit.Controls
 
             switch(type)
             {
+                case DeviceType.LOADING:
+                    imageIndex = this.lstDevices.LargeImageList.Images.IndexOfKey("loading");
+                    break;
                 case DeviceType.PS4:
-                    imageIndex = 0;
+                    imageIndex = this.lstDevices.LargeImageList.Images.IndexOfKey("ps4");
                     break;
                 case DeviceType.PS4SLIM:
-                    imageIndex = 1;
+                    imageIndex = this.lstDevices.LargeImageList.Images.IndexOfKey("ps4slim");
                     break;
                 case DeviceType.PS4PRO:
-                    imageIndex = 2;
+                    imageIndex = this.lstDevices.LargeImageList.Images.IndexOfKey("ps4pro");
                     break;
             }
 
@@ -99,6 +108,63 @@ namespace MiraToolkit.Controls
             device.SubItems.Add(ipSubView);
 
             this.lstDevices.Items.Add(device);
+
+            this.lstDevices.EndUpdate();
+        }
+
+        public void RemoveDevice(string ip)
+        {
+            this.lstDevices.BeginUpdate();
+
+            var index = -1;
+
+            for (var i = 0; i < this.lstDevices.Items.Count; i++)
+            {
+                if (this.lstDevices.Items[i].SubItems[1].Text == ip)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index != -1)
+                this.lstDevices.Items.RemoveAt(index);
+
+            this.lstDevices.EndUpdate();
+
+        }
+
+        public void UpdateDevice(string ip, DeviceType type, string name)
+        {
+            this.lstDevices.BeginUpdate();
+
+            int imageIndex = 0;
+
+            switch (type)
+            {
+                case DeviceType.LOADING:
+                    imageIndex = this.lstDevices.LargeImageList.Images.IndexOfKey("loading");
+                    break;
+                case DeviceType.PS4:
+                    imageIndex = this.lstDevices.LargeImageList.Images.IndexOfKey("ps4");
+                    break;
+                case DeviceType.PS4SLIM:
+                    imageIndex = this.lstDevices.LargeImageList.Images.IndexOfKey("ps4slim");
+                    break;
+                case DeviceType.PS4PRO:
+                    imageIndex = this.lstDevices.LargeImageList.Images.IndexOfKey("ps4pro");
+                    break;
+            }
+
+            for (var i = 0; i < this.lstDevices.Items.Count; i++)
+            {
+                if (this.lstDevices.Items[i].SubItems[1].Text == ip)
+                {
+                    this.lstDevices.Items[i].Text = name;
+                    this.lstDevices.Items[i].ImageIndex = imageIndex;
+                    break;
+                }
+            }
 
             this.lstDevices.EndUpdate();
         }

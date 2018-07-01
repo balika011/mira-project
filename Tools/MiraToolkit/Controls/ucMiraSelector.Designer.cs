@@ -37,7 +37,7 @@
             this.lstDevices.Location = new System.Drawing.Point(0, 0);
             this.lstDevices.Name = "lstDevices";
             this.lstDevices.Size = new System.Drawing.Size(392, 409);
-            this.lstDevices.TabIndex = 3;
+            this.lstDevices.TabIndex = 0;
             this.lstDevices.UseCompatibleStateImageBehavior = false;
             this.lstDevices.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
             this.lstDevices.BackColor = System.Drawing.Color.White;
