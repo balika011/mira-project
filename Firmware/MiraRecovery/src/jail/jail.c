@@ -4,14 +4,6 @@
 #include <sys/proc.h>
 #include <sys/filedesc.h>
 
-#if ONI_PLATFORM==ONI_PLATFORM_ORBIS_BSD_501
-#define kdlsym_addr_dmem_start_app_process 0x002468E0
-#define kdlsym_addr_jailed 0x003ABC10
-#elif ONI_PLATFORM==ONI_PLATFORM_ORBIS_BSD_505
-#define kdlsym_addr_jailed 0x003ABFE0
-#define kdlsym_addr_dmem_start_app_process 0x002469F0
-#endif
-
 int sys_jailbreak(struct thread* td, register void* unused)
 {
 	if (!td)

@@ -15,12 +15,6 @@
 #include "ctls/ctlrunpayload.h"
 #include "trap.h"
 
-#if ONI_PLATFORM >= ONI_PLATFORM_ORBIS_BSD_501 && ONI_PLATFORM <= ONI_PLATFORM_ORBIS_BSD_505
-#define kdlsym_addr_self_orbis_sysvec						 0x019bbcd0
-#else
-#error sysvec not set
-#endif
-
 int sys_jailbreak(struct thread* td, register void* unused);
 uint8_t* gMiraPayload = NULL;
 size_t gMiraPayloadSize = 0;
@@ -42,14 +36,12 @@ static struct cdevsw recovery_cdevsw = {
 
 void recovery_init_device()
 {
-	//void(*printf)(char*, ...) = kdlsym(printf);
+	void(*printf)(char *format, ...) = kdlsym(printf);
 	void(*kthread_exit)(void) = kdlsym(kthread_exit);
 	void(*critical_enter)(void) = kdlsym(critical_enter);
 	void(*critical_exit)(void) = kdlsym(critical_exit);
 	struct sysentvec* sv = kdlsym(self_orbis_sysvec);
 	void* (*memset)(void *s, int c, size_t n) = kdlsym(memset);
-	void(*printf)(char *format, ...) = kdlsym(printf);
-	void(*kthread_exit)(void) = kdlsym(kthread_exit);
 
 	// If we already have a device created, don't allow re-registering
 	if (recovery_dev)

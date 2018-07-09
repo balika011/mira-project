@@ -16,14 +16,6 @@
 //
 #include <mira/miraframework.h>
 
-#if ONI_PLATFORM==ONI_PLATFORM_ORBIS_BSD_505
-#define kdlsym_addr_icc_nvs_read 0x00395830
-#define kdlsym_addr_sceSblGetEAPInternalPartitionKey 0x006256E0
-#elif ONI_PLATFORM==ONI_PLATFORM_ORBIS_BSD_501
-#define kdlsym_addr_icc_nvs_read							 0x00395460
-#define kdlsym_addr_sceSblGetEAPInternalPartitionKey		 0x00625300
-#endif
-
 struct utility_dumphddkeys_t
 {
 	uint8_t encrypted[0x60];

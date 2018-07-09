@@ -14,6 +14,8 @@
 
 #include <mira/miraframework.h>
 
+#if ONI_PLATFORM==ONI_PLATFORM_ORBIS_BSD_501
+
 void overlayfs_onProcessCtor(struct overlayfs_t* fs);
 void overlayfs_onProcessDtor(struct overlayfs_t* fs);
 
@@ -28,13 +30,6 @@ int overlayfs_onOpenAt(struct thread *td, int fd, char *path, enum uio_seg paths
 int overlayfs_onClose(struct thread* td, int fd);
 int overlayfs_onRead(struct thread *td, int fd, struct uio *auio);
 int overlayfs_onWrite(struct thread* td, struct write_args* uap);
-
-#define kdlsym_addr_dmem_start_app_process 0x002468E0
-#define kdlsym_addr_exec_new_vmspace 0x0038A940
-#define kdlsym_addr_kern_open 0x0072AB50
-#define kdlsym_addr_kern_openat 0x0033B640
-#define kdlsym_addr_kern_readv 0x00152A10
-#define kdlsym_addr_kern_close  0x000C0F40
 
 void overlayfs_init(struct overlayfs_t* fs)
 {
@@ -335,3 +330,5 @@ uint8_t overlayfs_isThreadInProc(struct overlayfs_t* fs, struct thread* td)
 
 	return isInside;
 }
+
+#endif
